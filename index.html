@@ -3,9 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TerraMind</title>
+    <title>TerraMind: Global Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="./assets/icon.svg">
 </head>
 <body>
-    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <svg class="brand-icon" width="32" height="32" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M16 2 C16 2, 8 16, 16 30" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <path d="M16 2 C16 2, 24 16, 16 30" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                    <line x1="2" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+                <span class="brand-name">TerraMind</span>
+            </div>
+            
+            <div class="nav-menu">
+                <button class="nav-link active" data-view="explorer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    Explorer
+                </button>
+                <button class="nav-link" data-view="compare">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Compare
+                </button>
+                <button class="nav-link" data-view="quiz">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    Quiz
+                </button>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="icon-btn" id="bucketBtn" aria-label="Bucket List">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="badge" id="bucketCount">0</span>
+                </button>
+                <button class="icon-btn" id="themeToggle" aria-label="Toggle Theme">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Explorer View -->
+        <div class="view active" id="explorerView">
+            <!-- Filters & Search -->
+            <div class="filters-section">
+                <div class="container">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Search by country name or capital...">
+                        <button class="clear-btn" id="clearSearch" style="display: none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select id="regionFilter" class="filter-select">
+                            <option value="">All Regions</option>
+                            <option value="Africa">Africa</option>
+                            <option value="Americas">Americas</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Oceania">Oceania</option>
+                            <option value="Antarctic">Antarctic</option>
+                        </select>
+                        
+                        <select id="sortFilter" class="filter-select">
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="population-desc">Population (High to Low)</option>
+                            <option value="population-asc">Population (Low to High)</option>
+                            <option value="area-desc">Area (Largest First)</option>
+                            <option value="area-asc">Area (Smallest First)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Countries Grid -->
+            <div class="container">
+                <div class="results-info">
+                    <span id="resultsCount">Loading countries...</span>
+                </div>
+                <div id="countriesGrid" class="countries-grid">
+                    <!-- Loading State -->
+                    <div class="loading-state">
+                        <div class="loader"></div>
+                        <p>Loading countries data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compare View -->
+        <div class="view" id="compareView">
+            <div class="container">
+                <div class="compare-header">
+                    <h1 class="page-title">Country Comparison</h1>
+                    <p class="page-subtitle">Select two countries from Explorer to compare side by side</p>
+                    <button class="btn-secondary" id="clearCompare">Clear Comparison</button>
+                </div>
+                
+                <div class="compare-container">
+                    <div class="compare-slot" id="compareSlot1">
+                        <div class="compare-placeholder">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                            <p>Click on any country card while holding <kbd>Shift</kbd> to add it here</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vs-divider">VS</div>
+                    
+                    <div class="compare-slot" id="compareSlot2">
+                        <div class="compare-placeholder">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                            <p>Click on another country card while holding <kbd>Shift</kbd></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz View -->
+        <div class="view" id="quizView">
+            <div class="container quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-info">
+                        <h1 class="page-title">Flag Challenge</h1>
+                        <p class="page-subtitle">Test your geography knowledge</p>
+                    </div>
+                    <div class="quiz-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Score</span>
+                            <span class="stat-value" id="quizScore">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Time</span>
+                            <span class="stat-value" id="quizTimer">15</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="quizContent">
+                    <div class="quiz-welcome">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                        <h2>Ready to test your knowledge?</h2>
+                        <p>You'll have 15 seconds to identify each flag. Good luck!</p>
+                        <button class="btn-primary" id="startQuiz">Start Quiz</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Country Detail Modal -->
+    <div class="modal" id="countryModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Bucket List Modal -->
+    <div class="modal" id="bucketModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="bucketModalClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-header">
+                <h2>My Bucket List</h2>
+                <p>Countries you want to visit</p>
+            </div>
+            <div id="bucketListContent"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
