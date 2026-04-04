@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TerraMind: Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Fira+Code:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="icon" href="./assets/images/logo.svg" type="image/svg+xml">
+</head>
+<body>
+
+<!-- DYNAMIC BACKGROUND -->
+<div id="dynamic-bg">
+  <div class="bg-layer bg-layer-1"></div>
+  <div class="bg-layer bg-layer-2"></div>
+  <div class="bg-layer bg-layer-3"></div>
+  <div class="noise-overlay"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<!-- HEADER -->
+<header id="main-header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <ellipse cx="20" cy="20" rx="8" ry="18" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="2" y1="20" x2="38" y2="20" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="4" y1="13" x2="36" y2="13" stroke="currentColor" stroke-width="1"/>
+          <line x1="4" y1="27" x2="36" y2="27" stroke="currentColor" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-main">TerraMind</span>
+        <span class="logo-sub">Global Explorer</span>
+      </div>
+    </div>
+
+    <nav class="main-nav">
+      <a class="nav-btn" href="index.html">
+        <span class="nav-icon">◎</span> Explorer
+      </a>
+      <a class="nav-btn active" href="quiz.html">
+        <span class="nav-icon">◈</span> Quiz
+      </a>
+      <a class="nav-btn" href="favorites.html">
+        <span class="nav-icon">◇</span> Favorites
+      </a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="theme-toggle">
+        <span id="theme-icon">☀</span>
+      </button>
+      <button class="auth-btn" id="auth-btn" onclick="showAuthModal()">
+        <span>Sign In</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- QUIZ PAGE -->
+<div class="quiz-page-wrapper">
+  <div class="quiz-wrapper">
+
+    <!-- Quiz Menu -->
+    <div id="quiz-menu" class="quiz-screen active">
+      <div class="quiz-hero">
+        <div class="quiz-icon-large">◈</div>
+        <h2 class="quiz-title">Global Quiz</h2>
+        <p class="quiz-subtitle">Test your knowledge of flags, capitals, and countries</p>
+      </div>
+      <div class="quiz-modes">
+        <div class="quiz-mode-card" onclick="startQuiz('flags')">
+          <div class="qmc-icon">🏳</div>
+          <h3>Flag Challenge</h3>
+          <p>Guess the country by flag</p>
+          <span class="qmc-badge">Classic</span>
+        </div>
+        <div class="quiz-mode-card" onclick="startQuiz('capitals')">
+          <div class="qmc-icon">🏛</div>
+          <h3>Capital Cities</h3>
+          <p>Match capitals to countries</p>
+          <span class="qmc-badge">Medium</span>
+        </div>
+        <div class="quiz-mode-card" onclick="startQuiz('population')">
+          <div class="qmc-icon">👥</div>
+          <h3>Population Quiz</h3>
+          <p>Order by population size</p>
+          <span class="qmc-badge">Hard</span>
+        </div>
+      </div>
+      <div class="quiz-leaderboard-preview" id="quiz-leaderboard-preview">
+        <h4>Top Scores</h4>
+        <div id="leaderboard-list"></div>
+      </div>
+    </div>
+
+    <!-- Quiz Game -->
+    <div id="quiz-game" class="quiz-screen">
+      <div class="quiz-header-bar">
+        <button class="quiz-back-btn" onclick="endQuiz()">← Back</button>
+        <div class="quiz-progress-wrap">
+          <div class="quiz-progress-bar">
+            <div id="quiz-progress-fill"></div>
+          </div>
+          <span id="quiz-qnum">1/10</span>
+        </div>
+        <div class="quiz-score-display">
+          <span class="score-label">Score</span>
+          <span id="quiz-score-val">0</span>
+        </div>
+      </div>
+
+      <div class="quiz-timer-wrap">
+        <svg class="timer-svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="var(--border)" stroke-width="4"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="var(--accent)" stroke-width="4"
+            stroke-dasharray="289" id="timer-circle" stroke-linecap="round"
+            transform="rotate(-90 50 50)"/>
+        </svg>
+        <span id="timer-text">15</span>
+      </div>
+
+      <div class="question-area">
+        <p class="question-label" id="question-label">Which country does this flag belong to?</p>
+        <div class="flag-display" id="flag-display">
+          <img id="quiz-flag-img" src="" alt="Flag">
+        </div>
+      </div>
+
+      <div class="options-grid" id="options-grid"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+    </div>
+
+    <!-- Quiz Result -->
+    <div id="quiz-result" class="quiz-screen">
+      <div class="result-content">
+        <div class="result-badge" id="result-badge">🌍</div>
+        <h2 id="result-title">Well Played!</h2>
+        <div class="result-score-big">
+          <span id="result-score">0</span>
+          <span class="result-max">/100</span>
+        </div>
+        <div class="result-stats">
+          <div class="rs-item"><span id="rs-correct">0</span><small>Correct</small></div>
+          <div class="rs-item"><span id="rs-wrong">0</span><small>Wrong</small></div>
+          <div class="rs-item"><span id="rs-streak">0</span><small>Best Streak</small></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn-primary" onclick="startQuiz(currentQuizMode)">Play Again</button>
+          <button class="btn-ghost" onclick="endQuiz()">Menu</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="auth-modal" class="modal-overlay" onclick="closeAuthOutside(event)">
+  <div class="modal-box auth-modal-box">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Register</button>
+    </div>
+    <div id="auth-login" class="auth-form active">
+      <h3>Welcome Back</h3>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="Your username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••">
+      </div>
+      <div class="auth-error" id="login-error"></div>
+      <button class="btn-primary full-width" onclick="handleLogin()">Sign In</button>
+    </div>
+    <div id="auth-register" class="auth-form">
+      <h3>Create Account</h3>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="reg-username" placeholder="Choose a username">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="••••••••">
+      </div>
+      <div class="auth-error" id="reg-error"></div>
+      <button class="btn-primary full-width" onclick="handleRegister()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profile-modal" class="modal-overlay" onclick="closeProfileOutside(event)">
+  <div class="modal-box profile-modal-box">
+    <button class="modal-close" onclick="closeProfileModal()">✕</button>
+    <div class="profile-header">
+      <div class="profile-avatar" id="profile-avatar">T</div>
+      <div>
+        <h3 id="profile-username-display"></h3>
+        <p id="profile-email-display" class="modal-native"></p>
+      </div>
+    </div>
+    <div class="profile-stats-row">
+      <div class="pstat"><span id="pstat-score">0</span><small>Total Score</small></div>
+      <div class="pstat"><span id="pstat-games">0</span><small>Games</small></div>
+      <div class="pstat"><span id="pstat-best">0</span><small>Best Score</small></div>
+    </div>
+    <div class="score-history" id="score-history">
+      <h4>Score History</h4>
+      <div id="score-history-list"></div>
+    </div>
+    <button class="btn-ghost full-width" onclick="handleLogout()" style="margin-top:16px">Sign Out</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<script type="module" src="./assets/js/quiz.js"></script>
+</body>
+</html>

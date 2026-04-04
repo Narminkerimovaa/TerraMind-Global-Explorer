@@ -1,0 +1,17 @@
+.favorites-page-wrapper {
+  min-height: 100vh;
+  padding-top: calc(var(--header-h) + 32px);
+  padding-bottom: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  position: relative;
+  z-index: 1;
+  animation: pageFadeIn 0.4s var(--t-slow);
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
