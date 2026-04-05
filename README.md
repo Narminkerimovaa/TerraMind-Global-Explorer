@@ -53,4 +53,4 @@ terramind/
 
 ---
 
-*Layihə öyrənmə məqsədilə yazılır. Hər modul müstəqil başa düşülə bilməlidir.*
+*Layihə öyrənmə məqsədilə yazılıb.*
