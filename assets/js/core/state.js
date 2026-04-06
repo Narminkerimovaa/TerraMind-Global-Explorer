@@ -1,4 +1,4 @@
-import { storage } from "../utils/storage"
+import { storage } from "../utils/storage.js"
 
 export const state = {
   countries: [],
