@@ -1,4 +1,4 @@
-function formatNumber(num) {
+export function formatNumber(num) {
   let string = num.toString();
   let result = [];
   let count = 0;
@@ -12,12 +12,12 @@ function formatNumber(num) {
   return result.reverse().join("");
 }
 
-function formatArea(km2) {
+export function formatArea(km2) {
   let num = formatNumber(km2);
-  return num + "km²";
+  return num + " km²";
 }
 
-function formatPopulation(num) {
+export function formatPopulation(num) {
   if (num >= 1000000000) {
     let billion = num / 1000000000;
     return parseFloat(billion.toFixed(2)) + "B";
@@ -29,32 +29,15 @@ function formatPopulation(num) {
   }
 }
 
-class Country {
-  constructor(url, country) {
-    this.url = url;
-    this.country = country;
-  }
-
-  async fetchData() {
-    try {
-      let res = await fetch(this.url + "/" + this.country);
-      let data = await res.json();
-      this.data = data[0];
-    } catch (error) {
-      console.log("Xəta baş verdi:", error);
-    }
-  }
-}
-
-function getFlag(country) {
+export function getFlag(country) {
   return country.flags.svg;
 }
 
-function getCapital(country) {
+export function getCapital(country) {
   return country.capital?.[0] ?? "N/A";
 }
 
-function getNativeName(country) {
+export function getNativeName(country) {
   let nativeNames = country.name?.nativeName;
   if (!nativeNames) return country.name.common;
   let firstKey = Object.keys(nativeNames)[0];
@@ -62,10 +45,3 @@ function getNativeName(country) {
 }
 
 
-// istifadəsi:
-// async function somewhere() {
-//   let peru = await getCountryInfo("peru");
-//   peru.flag;
-//   peru.capital;
-//   peru.name;
-// }
